@@ -27,7 +27,7 @@ def students():
     
     return render_template('students.html')
 
-@app.route("/add_student/")
+@app.route("/add_student/", methods=["GET", "POST"])
 def add_student():
     return render_template('add_student.html')
 
