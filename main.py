@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, redirect, session
-from backend import read_db_config, connect, execute_query
+from flask import Flask, render_template, request, jsonify
+from backend import *
 
 app = Flask(__name__)
 
@@ -7,11 +7,11 @@ app = Flask(__name__)
 def main():
     return render_template('index.html')
 
-@app.route("/records/")
+@app.route("/records")
 def records():
     return render_template('records.html')
 
-@app.route("/students/", methods=["GET", "POST"])
+@app.route("/students", methods=["GET", "POST"])
 def students():
     if request.method == 'GET':
         conn = connect()
@@ -27,15 +27,37 @@ def students():
     
     return render_template('students.html')
 
-@app.route("/add_student/", methods=["GET", "POST"])
+@app.route("/add_student", methods=["GET", "POST"])
 def add_student():
-    return render_template('add_student.html')
+    if request.method == "POST":
+        stud_id = request.form.get("StudentID")
+        firstname = request.form.get("firstName")
+        middlename = request.form.get("middleName")
+        lastname = request.form.get("lastName")
+        suffix = request.form.get("suffix")
+        age = request.form.get("age")
+        email = request.form.get("email")
+        
+        conn = connect()
+        if conn is not None:
+            execute_query(conn, f"INSERT INTO students VALUES ({stud_id}, '{firstname}', '{middlename}', '{lastname}', '{suffix}', {age}, '{email}')")
+            
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM students")
+            rows = cursor.fetchall()
 
-@app.route("/instructors/")
+            cursor.close()
+            conn.close()
+            
+            return render_template('students.html', students=rows)
+            
+    return render_template('students.html')
+
+@app.route("/instructors")
 def instructors():
     return render_template('instructors.html')
 
-@app.route("/grades/")
+@app.route("/grades")
 def grades():
     conn = connect()
     if conn is not None:
