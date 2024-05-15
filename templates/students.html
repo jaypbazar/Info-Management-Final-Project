@@ -7,7 +7,7 @@
 <div class="container">
     <h1 class="text-center">Students</h1>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-primary" type="submit">+ Add Student</button>
+        <button class="btn btn-primary" type="submit" formaction="/add_student">+ Add Student</button>
     </div>
     <table class="table table-striped">
         <thead>
@@ -31,8 +31,8 @@
                     <td>{{ row[4] }}</td>
                     <td>{{ row[5] }}</td>
                     <td>{{ row[6] }}</td>
-                    <td><a class="btn btn-link" href="edit-student">Edit</a></td>
-                    <td><a class="btn btn-link" href="delete-student">Delete</a></td>
+                    <td><a class="btn btn-link" href="/edit-student">Edit</a></td>
+                    <td><a class="btn btn-link" href="/delete-student">Delete</a></td>
                 </tr>
             {% endfor %}
         </tbody>

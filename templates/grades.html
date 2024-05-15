@@ -1,1 +1,33 @@
 {% extends "base.html" %}
+
+{% block title %}Grades{% endblock title %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="container">
+            <br><br>
+            <h1 class="text-center">Grades</h1>
+            <br>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                      <th scope="col">Grade</th>
+                      <th scope="col">Equivalent</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for grade in grades %}
+                        <tr>
+                            <td>{{ grade[0] }}</td>
+                            <td>{{ grade[1] }}</td>
+                        </tr>
+                    {% endfor %}
+                  </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+{% endblock body %}
