@@ -1,1 +1,142 @@
 {% extends "base.html" %}
+
+{% block title %}Instructors{% endblock title %}
+
+{% block body %}
+<br><br>
+<div class="container">
+  <h1 class="text-center">Instructors</h1>
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInstructorModal">+ Add Instructor</button>
+  </div>
+
+  <div class="modal fade" id="addInstructorModal" tabindex="-1" aria-labelledby="addInstructorModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addInstructorModalLabel">Add Instructor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addInstructorForm" action="/add_instructor/" method="post">
+            <div class="mb-3">
+              <label for="firstName" class="form-label">First Name</label>
+              <input type="text" class="form-control" id="firstName" name="firstName" required>
+            </div>
+            <div class="mb-3">
+              <label for="middleName" class="form-label">Middle Name</label>
+              <input type="text" class="form-control" id="middleName" name="middleName">
+            </div>
+            <div class="mb-3">
+              <label for="lastName" class="form-label">Last Name</label>
+              <input type="text" class="form-control" id="lastName" name="lastName" required>
+            </div>
+            <div class="mb-3">
+              <label for="suffix" class="form-label">Suffix</label>
+              <input type="text" class="form-control" id="suffix" name="suffix">
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" form="addInstructorForm" class="btn btn-primary">Add Instructor</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% for row in instructors %}
+    <div class="modal fade" id="editInstructorModal-{{ row[0] }}" tabindex="-1" aria-labelledby="editInstructorModalLabel" aria-hidden="false">
+        <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="editInstructorModalLabel">Update Instructor ({{ row[0] }})</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form id="editInstructorForm-{{ row[0] }}" action="/edit_instructor/{{ row[0] }}" method="post">
+                <div class="mb-3">
+                <label for="instructorID" class="form-label">Instructor ID (Read Only)</label>
+                <input type="number" class="form-control" id="instructorID" name="instructorID" value="{{ row[0] }}" readonly>
+                </div>
+                <div class="mb-3">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" value="{{ row[1] }}" required>
+                </div>
+                <div class="mb-3">
+                <label for="middleName" class="form-label">Middle Name</label>
+                <input type="text" class="form-control" id="middleName" name="middleName" value="{{ row[2] }}">
+                </div>
+                <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lastName" name="lastName" value="{{ row[3] }}" required>
+                </div>
+                <div class="mb-3">
+                <label for="suffix" class="form-label">Suffix</label>
+                <input type="text" class="form-control" id="suffix" name="suffix" value="{{ row[4] }}">
+                </div>
+                <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ row[5] }}" required>
+                </div>
+            </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" form="editInstructorForm-{{ row[0] }}" class="btn btn-primary">Update Instructor</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteInstructorModal-{{ row[0] }}" tabindex="-1" aria-labelledby="deleteInstructorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="deleteInstructorModalLabel">Confirm Delete</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <p>Are you sure you want to delete instructor with ID {{ row[0] }}?</p>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <a href="/delete_instructor/{{ row[0] }}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Instructor ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Middle Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Suffix</th>
+            <th scope="col">Email</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for row in instructors %}
+                <tr>
+                    <th  scope="row">{{ row[0] }}</th>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                    <td><a class="btn link-info" data-bs-toggle="modal" data-bs-target="#editInstructorModal-{{ row[0] }}">Edit</a></td>
+                    <td><a class="btn link-danger" data-bs-toggle="modal" data-bs-target="#deleteInstructorModal-{{ row[0] }}">Delete</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock body %}
