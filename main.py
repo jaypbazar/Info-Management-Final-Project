@@ -317,7 +317,7 @@ def instructors():
     """
     conn = connect()
     if conn is not None:
-        update_instructors(conn)
+        return update_instructors(conn)
     
     return render_template('instructors.html')
 
@@ -530,17 +530,7 @@ def delete_course(courseID):
         execute_query(conn, f"DELETE FROM courses WHERE course_id={courseID}")
 
         # Update the displayed courses
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM courses")
-        rows = cursor.fetchall()
-
-        cursor.execute("SELECT * FROM instructors")
-        rows2 = cursor.fetchall()
-
-        conn.close()
-        cursor.close()
-        
-        return render_template('courses.html', courses=rows, instructors=rows2)
+        return update_courses(conn)
 
     return render_template('courses.html')
 
