@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2024 at 05:07 AM
+-- Generation Time: May 23, 2024 at 04:42 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `cs2a student record`
+-- Database: `cs2a_student_record`
 --
 
 -- --------------------------------------------------------
@@ -39,7 +39,8 @@ CREATE TABLE `courses` (
 --
 
 INSERT INTO `courses` (`course_id`, `course_name`, `units`, `instructor_id`) VALUES
-('CCCS 105', 'Information Management 1', 3, 1);
+('CCCS 105', 'Information Management 1', 3, 1),
+('CSAC 212', 'Machine Learning', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -97,6 +98,7 @@ INSERT INTO `instructors` (`instructor_id`, `first_name`, `middle_name`, `last_n
 --
 
 CREATE TABLE `records` (
+  `id` int(11) NOT NULL,
   `student_id` int(11) NOT NULL,
   `course_id` varchar(50) NOT NULL,
   `grade` decimal(10,2) NOT NULL,
@@ -107,8 +109,8 @@ CREATE TABLE `records` (
 -- Dumping data for table `records`
 --
 
-INSERT INTO `records` (`student_id`, `course_id`, `grade`, `remark`) VALUES
-(1, 'CCCS 105', 1.25, 'passed');
+INSERT INTO `records` (`id`, `student_id`, `course_id`, `grade`, `remark`) VALUES
+(1, 221008049, 'CCCS 105', 1.25, 'passed');
 
 -- --------------------------------------------------------
 
@@ -131,7 +133,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_id`, `first_name`, `middle_name`, `last_name`, `suffix`, `age`, `email`) VALUES
-(1, 'Jayp', 'Surara', 'Bazar', '', 20, 'jabazar@my.cspc.edu.ph');
+(221008049, 'Jayp', 'Surara', 'Bazar', '', 20, 'jabazar@my.cspc.edu.ph'),
+(221008728, 'Juan Crisostomo', 'Magsalin', 'Ibarra', '', 24, 'chrisostomoibarra@gmail.com');
 
 --
 -- Indexes for dumped tables
@@ -160,6 +163,7 @@ ALTER TABLE `instructors`
 -- Indexes for table `records`
 --
 ALTER TABLE `records`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `grade` (`grade`),
   ADD KEY `student_id` (`student_id`),
   ADD KEY `course_id` (`course_id`);
@@ -181,10 +185,16 @@ ALTER TABLE `instructors`
   MODIFY `instructor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `records`
+--
+ALTER TABLE `records`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221008729;
 
 --
 -- Constraints for dumped tables
